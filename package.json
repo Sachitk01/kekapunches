@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3",
-    "vitest": "^1.0.0"
+    "vitest": "^1.0.0",
+    "supertest": "^6.4.0"
   }
 }
