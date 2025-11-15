@@ -9,6 +9,8 @@
     "dev": "nodemon server.js",
     "migrate": "node scripts/runMigrations.js",
     "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
     "migrate:pg": "node scripts/runMigrationsPg.js",
     "lint": "eslint . --ext .js"
   },
@@ -22,7 +24,7 @@
   "devDependencies": {
     "nodemon": "^3.0.3",
     "vitest": "^1.0.0",
-    "supertest": "^6.4.0",
+    "supertest": "^6.3.3",
     "eslint": "^8.0.0",
     "prettier": "^2.8.0",
     "eslint-config-prettier": "^8.8.0"
