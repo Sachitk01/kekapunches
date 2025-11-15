@@ -60,3 +60,17 @@ npm test -- --grep "DB integration"
 
 # kekapunches
 keka punches middleware
+
+---
+
+Run the dev seed
+
+You can seed a `daily_attendance_state` test row using the included Node script:
+
+```bash
+# using your host DB
+export DATABASE_URL="postgres://postgres:postgres@localhost:5432/keka_dev"
+npm run seed:dev
+```
+
+For full instructions and Docker Compose smoke-test steps, see `RUNBOOK.md`.
