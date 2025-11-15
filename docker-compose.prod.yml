@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-keka_prod}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build: .
+    environment:
+      # Production secrets should be injected via .env or docker secrets
+      NODE_ENV: production
+      DATABASE_URL: "postgres://postgres:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-keka_prod}"
+      PORT: 3000
+      SLACK_SIGNING_SECRET: ${SLACK_SIGNING_SECRET}
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN}
+      DEFAULT_FALLBACK_APPROVER_SLACK_ID: ${DEFAULT_FALLBACK_APPROVER_SLACK_ID}
+      KEKA_API_BASE: ${KEKA_API_BASE}
+      KEKA_API_TOKEN: ${KEKA_API_TOKEN}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - '${PORT:-3000}:3000'
+    command: sh -c "node scripts/runMigrationsPg.js && npm start"
+    healthcheck:
+      test: ["CMD", "node", "-e", "(async()=>{const res=await fetch('http://localhost:3000/health'); process.exit(res.ok?0:1)})()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "10"
+
+volumes:
+  postgres_data:

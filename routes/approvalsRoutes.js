@@ -19,14 +19,14 @@ router.get('/pending', async (req, res) => {
   }
 });
 
-// POST /approvals/:id/approve - Approve an approval record
-router.post('/:id/approve', async (req, res) => {
+// POST /approvals/:id/approve - Approve an approval record (requires Slack verification)
+router.post('/:id/approve', slackVerification, async (req, res) => {
   try {
     const { id } = req.params;
     const { approver_id, notes } = req.body;
 
     if (!approver_id) {
-      return res.status(400).json({ error: 'approver_id required' });
+      return res.status(403).json({ error: 'Unauthorized: approver_id required' });
     }
 
     const approval = await approvalsService.approveApproval(id, approver_id, notes);
@@ -53,14 +53,14 @@ router.post('/:id/approve', async (req, res) => {
   }
 });
 
-// POST /approvals/:id/reject - Reject an approval record
-router.post('/:id/reject', async (req, res) => {
+// POST /approvals/:id/reject - Reject an approval record (requires Slack verification)
+router.post('/:id/reject', slackVerification, async (req, res) => {
   try {
     const { id } = req.params;
     const { approver_id, notes } = req.body;
 
     if (!approver_id) {
-      return res.status(400).json({ error: 'approver_id required' });
+      return res.status(403).json({ error: 'Unauthorized: approver_id required' });
     }
 
     const approval = await approvalsService.rejectApproval(id, approver_id, notes);
