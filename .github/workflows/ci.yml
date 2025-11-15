@@ -35,3 +35,10 @@ jobs:
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/keka_test_db
         run: npm test
+
+      - name: Run migrations and DB integration tests
+        env:
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/keka_test_db
+        run: |
+          npm run migrate:pg
+          npm test -- --grep "DB integration"
