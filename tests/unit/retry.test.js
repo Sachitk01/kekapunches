@@ -1,9 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import axios from 'axios';
-import { retryWithBackoff } from '../lib/retry.js';
+import { retryWithBackoff } from '../../lib/retry.js';
 
 vi.mock('axios');
-vi.mock('../lib/logger.js', () => ({
+vi.mock('../../lib/logger.js', () => ({
   info: vi.fn(),
   warn: vi.fn(),
   error: vi.fn()

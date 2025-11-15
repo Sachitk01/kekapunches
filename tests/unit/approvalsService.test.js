@@ -1,15 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-vi.mock('../lib/db.js', () => ({ default: { query: vi.fn() } }));
-vi.mock('../lib/metrics.js', () => ({
+vi.mock('../../lib/db.js', () => ({ default: { query: vi.fn() } }));
+vi.mock('../../lib/metrics.js', () => ({
   incrementCounter: vi.fn(),
   initMetrics: vi.fn(),
   getMetrics: vi.fn(() => 'test metrics')
 }));
 
-import * as approvalsService from '../services/approvalsService.js';
-import db from '../lib/db.js';
-import { incrementCounter } from '../lib/metrics.js';
+import * as approvalsService from '../../services/approvalsService.js';
+import db from '../../lib/db.js';
+import { incrementCounter } from '../../lib/metrics.js';
 
 beforeEach(() => {
   vi.clearAllMocks();
