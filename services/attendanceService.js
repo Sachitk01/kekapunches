@@ -137,3 +137,17 @@ export async function endLunch({ slackUserId, now }) {
   info('Lunch ended', { slackUserId, durationMin, violations });
   return { durationMin, violations };
 }
+
+export async function clearFirstLoginApprovalRequired(slackUserId, date) {
+  try {
+    await db.query(
+      `UPDATE daily_attendance_state SET first_login_approval_required = FALSE, updated_at = NOW()
+       WHERE slack_user_id = $1 AND date = $2`,
+      [slackUserId, date]
+    );
+    info('First login approval requirement cleared', { slackUserId, date });
+  } catch (err) {
+    error('Failed to clear first login approval', { err: err.message });
+    throw err;
+  }
+}
