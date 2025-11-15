@@ -47,3 +47,16 @@ docker-compose -f docker-compose.dev.yml down -v
 Notes:
 - `docker-compose.dev.yml` uses DB name `keka_dev` and creates a `db` service.  
 - The compose `app` service runs `node scripts/runMigrationsPg.js` before starting the server.
+
+### Seed via npm (cross-platform)
+
+You can run the seed script from the repo root (uses `DATABASE_URL` or the app's env):
+
+```bash
+# Using your local env (example)
+export DATABASE_URL="postgres://postgres:postgres@localhost:5432/keka_dev"
+npm run seed:dev
+```
+
+When running inside Docker Compose the DB is available at host `db` and the container's `DATABASE_URL` is set. If you prefer to run the seed inside the Postgres container, use the earlier `docker exec` commands shown above.
+

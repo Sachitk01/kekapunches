@@ -12,6 +12,7 @@
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
     "migrate:pg": "node scripts/runMigrationsPg.js",
+    "seed:dev": "node scripts/seedDailyAttendance.js",
     "lint": "eslint . --ext .js"
   },
   "dependencies": {
